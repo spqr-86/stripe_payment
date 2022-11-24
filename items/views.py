@@ -1,4 +1,5 @@
 import stripe
+
 from django.conf import settings
 from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView
