@@ -1,0 +1,13 @@
+[
+{
+  "model": "items.item",
+  "pk": 1,
+  "fields": {
+    "name": "Item 1",
+    "description": "Item 1 description",
+    "price": "250.00",
+    "stripe_item_id": "prod_MqwPF9FZbXryxQ",
+    "stripe_price_id": "price_1M7EWTBUZNBUYwnwStD3uy1E"
+  }
+}
+]
