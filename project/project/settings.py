@@ -15,6 +15,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
+    'orders.apps.OrdersConfig',
     'items.apps.ItemsConfig',
     'django.contrib.admin',
     'django.contrib.auth',

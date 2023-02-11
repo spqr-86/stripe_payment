@@ -15,9 +15,11 @@
               <h4 class="my-0 fw-normal">{{ item.name }}</h4>
             </div>
             <div class="card-body">
-              <h1 class="card-title pricing-card-title">$ {{ item.price }}<small class="text-muted fw-light">/mo</small></h1>
+              <h1 class="card-title pricing-card-title">$ {{ item.price }}<small class="text-muted fw-light"></small></h1>
               {{ item.description }}
+              <div>
               <a class="btn btn-primary" href="{% url 'landing-page' item.id %}" role="button">Ссылка</a>
+              </div>
             </div>
           </div>
         </div>

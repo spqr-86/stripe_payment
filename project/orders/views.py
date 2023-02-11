@@ -2,30 +2,17 @@ import stripe
 
 from django.conf import settings
 from django.views import View
-from django.views.generic import ListView, DetailView, TemplateView
 from django.http import JsonResponse
+from django.views.generic import DetailView
 
-from .models import Item
+from .models import Order
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-class SuccessView(TemplateView):
-    template_name = "success.html"
-
-
-class CancelView(TemplateView):
-    template_name = "cancel.html"
-
-
-class ItemListView(ListView):
-    model = Item
-    context_object_name = 'items'
-
-
-class ItemLandingPageView(DetailView):
-    model = Item
-    template_name = "items/item.html"
+class OrderPageView(DetailView):
+    model = Order
+    template_name = "orders/order.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -35,9 +22,9 @@ class ItemLandingPageView(DetailView):
         return context
 
 
-class BuyItemView(View):
+class BuyOrderView(View):
     def get(self, request, *args, **kwargs):
-        item = Item.objects.get(id=self.kwargs["pk"])
+        order = Order.objects.get(id=self.kwargs["pk"])
         domain = "https://yourdomain.com"
         if settings.DEBUG:
             domain = "http://127.0.0.1:8000"
@@ -49,12 +36,12 @@ class BuyItemView(View):
                         "currency": "usd",
                         "unit_amount": int(item.price) * 100,
                         "product_data": {
-                            "name": item.name,
-                            "description": item.description,
+                            "name": item.item.name,
+                            "description": item.item.description,
                         },
                     },
-                    'quantity': 1,
-                },
+                    'quantity': item.quantity,
+                } for item in order.items.all()
             ],
             mode='payment',
             success_url=domain + '/success/',

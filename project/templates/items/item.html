@@ -5,10 +5,18 @@
   <script src="https://js.stripe.com/v3/"></script>
 {% endblock %}
 {% block content %}
-  <h1>{{ item.name }}</h1>
-  <p>{{ item.description }}</p>
-  <p>1111</p>
-  <button id="buy-button">Buy</button>
+  <div class="container my-5">
+    <div class="bg-light p-5 rounded">
+      <div class="col-sm-8 py-5 mx-auto">
+        <h1 class="display-5 fw-normal">{{ item.name }}</h1>
+        <p class="fs-5">{{ item.name }}</p>
+        <p>{{ item.price }}</p>
+        <p>
+          <button class="btn btn-primary" id="buy-button">Buy</button>
+        </p>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 {% block js %}
   <script type="text/javascript">
@@ -17,7 +25,7 @@
     buyButton.addEventListener('click', function() {
       // Create a new Checkout Session using the server-side endpoint
       // Redirect to Stripe Session Checkout
-      fetch('{% url 'create-checkout-session' item.id %}', {method: 'GET'})
+      fetch('{% url 'buy-item' item.id %}', {method: 'GET'})
       .then(function (response) {
         return response.json();
       })
