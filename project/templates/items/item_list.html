@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Items{% endblock %}
+{% block content %}
+  <header>
+    <div class="p-3 pb-md-4 mx-auto text-center">
+      <h1 class="display-4 fw-normal">Items</h1>
+    </div>
+  </header>
+  <main>
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+      {% for item in items %}
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal">{{ item.name }}</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">$ {{ item.price }}<small class="text-muted fw-light"></small></h1>
+              {{ item.description }}
+              <div>
+              <a class="btn btn-primary" href="{% url 'landing-page' item.id %}" role="button">Ссылка</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Order {{ order.id }}{% endblock %}
+{% block stylesheet %}
+  <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+{% block content %}
+
+  <div class="container my-5">
+    <div class="bg-light p-5 rounded">
+      <div class="col-sm-8 py-5 mx-auto">
+        <h1 class="display-5 fw-normal">Items bought</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Ithem</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Cost</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {% for item in order.items.all %}
+              <tr class="row{% cycle "1" "2" %}">
+                <td>{{ item.item.name }}</td>
+                <td class="num">${{ item.price }}</td>
+                <td class="num">{{ item.quantity }}</td>
+                <td class="num">${{ item.get_cost }}</td>
+              </tr>
+            {% endfor %}
+            <tr class="total">
+              <td colspan="3">Total</td>
+              <td class="num">${{ order.get_total_cost }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <button class="btn btn-primary" id="buy-button">Buy</button>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block js %}
+  <script type="text/javascript">
+    var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
+    var buyButton = document.getElementById('buy-button');
+    buyButton.addEventListener('click', function() {
+      // Create a new Checkout Session using the server-side endpoint
+      // Redirect to Stripe Session Checkout
+      fetch('{% url 'buy-order' order.id %}', {method: 'GET'})
+      .then(function (response) {
+        return response.json();
+      })
+      .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
+    });
+  </script>
+{% endblock %}
