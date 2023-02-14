@@ -29,5 +29,7 @@ The login credentials for the Django admin panel are as follows:
 The server uses the following dependencies:
 
 Django
+
 stripe
+
 Python 3.7+
